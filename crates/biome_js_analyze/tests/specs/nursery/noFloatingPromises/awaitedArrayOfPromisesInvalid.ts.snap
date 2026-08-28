@@ -4,7 +4,7 @@ expression: awaitedArrayOfPromisesInvalid.ts
 ---
 # Input
 ```ts
-// should generate diagnostics
+// should generate diagnostics for unawaited expressions
 async function asyncValues(): Promise<Array<Promise<void>>> {
 	return [];
 }
@@ -12,6 +12,12 @@ function syncValues(): Promise<Array<Promise<void>>> {
 	return Promise.resolve([]);
 }
 declare const directValues: Promise<Array<Promise<void>>>;
+declare const values: Array<Promise<void>>;
+
+asyncValues();
+syncValues();
+directValues;
+values;
 
 await asyncValues();
 await syncValues();
@@ -22,36 +28,18 @@ await await asyncValues();
 
 # Diagnostics
 ```
-awaitedArrayOfPromisesInvalid.ts:10:1 lint/nursery/noFloatingPromises ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  i An array of Promises was found, meaning they are not properly handled and could lead to ignored errors or unexpected behavior.
-  
-     8 │ declare const directValues: Promise<Array<Promise<void>>>;
-     9 │ 
-  > 10 │ await asyncValues();
-       │ ^^^^^^^^^^^^^^^^^^^^
-    11 │ await syncValues();
-    12 │ await directValues;
-  
-  i This happens when an array of Promises is not wrapped with Promise.all() or a similar method, and is not explicitly ignored using the `void` operator.
-  
-  i This rule belongs to the nursery group, which means it is not yet stable and may change in the future. Visit https://biomejs.dev/linter/#nursery for more information.
-  
-
-```
-
-```
 awaitedArrayOfPromisesInvalid.ts:11:1 lint/nursery/noFloatingPromises ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  i An array of Promises was found, meaning they are not properly handled and could lead to ignored errors or unexpected behavior.
+  i A "floating" Promise was found, meaning it is not properly handled and could lead to ignored errors or unexpected behavior.
   
-    10 │ await asyncValues();
-  > 11 │ await syncValues();
-       │ ^^^^^^^^^^^^^^^^^^^
-    12 │ await directValues;
-    13 │ await await asyncValues();
+     9 │ declare const values: Array<Promise<void>>;
+    10 │ 
+  > 11 │ asyncValues();
+       │ ^^^^^^^^^^^^^^
+    12 │ syncValues();
+    13 │ directValues;
   
-  i This happens when an array of Promises is not wrapped with Promise.all() or a similar method, and is not explicitly ignored using the `void` operator.
+  i This happens when a Promise is not awaited, lacks a `.catch` or `.then` rejection handler, or is not explicitly ignored using the `void` operator.
   
   i This rule belongs to the nursery group, which means it is not yet stable and may change in the future. Visit https://biomejs.dev/linter/#nursery for more information.
   
@@ -61,16 +49,15 @@ awaitedArrayOfPromisesInvalid.ts:11:1 lint/nursery/noFloatingPromises ━━━�
 ```
 awaitedArrayOfPromisesInvalid.ts:12:1 lint/nursery/noFloatingPromises ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  i An array of Promises was found, meaning they are not properly handled and could lead to ignored errors or unexpected behavior.
+  i A "floating" Promise was found, meaning it is not properly handled and could lead to ignored errors or unexpected behavior.
   
-    10 │ await asyncValues();
-    11 │ await syncValues();
-  > 12 │ await directValues;
-       │ ^^^^^^^^^^^^^^^^^^^
-    13 │ await await asyncValues();
-    14 │ 
+    11 │ asyncValues();
+  > 12 │ syncValues();
+       │ ^^^^^^^^^^^^^
+    13 │ directValues;
+    14 │ values;
   
-  i This happens when an array of Promises is not wrapped with Promise.all() or a similar method, and is not explicitly ignored using the `void` operator.
+  i This happens when a Promise is not awaited, lacks a `.catch` or `.then` rejection handler, or is not explicitly ignored using the `void` operator.
   
   i This rule belongs to the nursery group, which means it is not yet stable and may change in the future. Visit https://biomejs.dev/linter/#nursery for more information.
   
@@ -80,13 +67,33 @@ awaitedArrayOfPromisesInvalid.ts:12:1 lint/nursery/noFloatingPromises ━━━�
 ```
 awaitedArrayOfPromisesInvalid.ts:13:1 lint/nursery/noFloatingPromises ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+  i A "floating" Promise was found, meaning it is not properly handled and could lead to ignored errors or unexpected behavior.
+  
+    11 │ asyncValues();
+    12 │ syncValues();
+  > 13 │ directValues;
+       │ ^^^^^^^^^^^^^
+    14 │ values;
+    15 │ 
+  
+  i This happens when a Promise is not awaited, lacks a `.catch` or `.then` rejection handler, or is not explicitly ignored using the `void` operator.
+  
+  i This rule belongs to the nursery group, which means it is not yet stable and may change in the future. Visit https://biomejs.dev/linter/#nursery for more information.
+  
+
+```
+
+```
+awaitedArrayOfPromisesInvalid.ts:14:1 lint/nursery/noFloatingPromises ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
   i An array of Promises was found, meaning they are not properly handled and could lead to ignored errors or unexpected behavior.
   
-    11 │ await syncValues();
-    12 │ await directValues;
-  > 13 │ await await asyncValues();
-       │ ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    14 │ 
+    12 │ syncValues();
+    13 │ directValues;
+  > 14 │ values;
+       │ ^^^^^^^
+    15 │ 
+    16 │ await asyncValues();
   
   i This happens when an array of Promises is not wrapped with Promise.all() or a similar method, and is not explicitly ignored using the `void` operator.
   
