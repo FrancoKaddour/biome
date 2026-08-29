@@ -1,5 +1,27 @@
 # @biomejs/biome
 
+## 2.5.12
+
+### Patch Changes
+
+- [#11518](https://github.com/biomejs/biome/pull/11518) [`0fee70c`](https://github.com/biomejs/biome/commit/0fee70c6420140d62e9e9507ff3eda735077691b) Thanks [@HarperZ9](https://github.com/HarperZ9)! - Fixed [#11500](https://github.com/biomejs/biome/issues/11500): the formatter now prints the `declare` modifier before accessibility modifiers on class properties. `private declare readonly name: string` is now formatted as `declare private readonly name: string`, matching Prettier and TypeScript's canonical modifier order.
+
+- [#11492](https://github.com/biomejs/biome/pull/11492) [`f2a07aa`](https://github.com/biomejs/biome/commit/f2a07aadedd47034dccffd941935c71481b4c354) Thanks [@santichausis](https://github.com/santichausis)! - Fixed [#11454](https://github.com/biomejs/biome/issues/11454): [`noMisplacedAssertion`](https://biomejs.dev/linter/rules/no-misplaced-assertion/) now recognises `@fast-check/vitest`'s `test.prop(...)` (and `.concurrent.prop`, `.skip.prop`, etc.) as a test function, the same way it already recognises `test.each`. The JS formatter picks up the same recognition, so a curried `test.prop(...)(...)` call is now formatted with the regular breakable argument layout used for `test.each`/`test.for`, instead of the single-line-hugging layout used for plain `it`/`test` calls.
+  
+  For example, Biome no longer reports the assertion below as misplaced:
+  
+  ```js
+  import { fc, test } from "@fast-check/vitest";
+  
+  test.prop([fc.string()])("round-trips", (s) => {
+    expect(s).toBe(s);
+  });
+  ```
+
+- [#11533](https://github.com/biomejs/biome/pull/11533) [`97e76c0`](https://github.com/biomejs/biome/commit/97e76c04cf19de45e63a22a9954c5077f45d4e6c) Thanks [@ematipico](https://github.com/ematipico)! - Fixed [#11520](https://github.com/biomejs/biome/issues/11520), where the Biome scanner would start analysing dependencies multiple times, leading to long and unresponsive sessions.
+
+- [#11345](https://github.com/biomejs/biome/pull/11345) [`ac58958`](https://github.com/biomejs/biome/commit/ac58958135d79e790f0edee8ec18aaa16f5d9849) Thanks [@jakeleventhal](https://github.com/jakeleventhal)! - Improved type inference performance by avoiding resolution of unused members in object arguments.
+
 ## 2.5.11
 
 ### Patch Changes
