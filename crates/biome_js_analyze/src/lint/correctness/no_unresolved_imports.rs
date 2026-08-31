@@ -114,10 +114,10 @@ impl Rule for NoUnresolvedImports {
         let resolved_path = match resolved_path.as_deref() {
             Ok(resolved_path) => resolved_path,
             Err(resolve_error) => {
-                // Runtime built-ins (e.g. `node:fs`, `node:path`, `bun:test`)
+                // Built-in modules (e.g. `node:fs`, `node:path`, `bun:test`)
                 // are valid imports — they simply cannot be resolved to a file
                 // path.
-                if *resolve_error == ResolveError::RuntimeBuiltIn {
+                if *resolve_error == ResolveError::NodeBuiltIn {
                     return Vec::new();
                 }
 
