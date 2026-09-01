@@ -3,4 +3,5 @@
 import { test } from "bun:test";
 import { Database } from "bun:sqlite";
 import { dlopen } from "bun:ffi";
+import { embeddedFiles } from "bun:bundle";
 import Bun from "bun";

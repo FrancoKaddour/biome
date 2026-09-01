@@ -18,10 +18,10 @@ import * as crypto from "node:crypto";
 
 // Bun runtime built-in modules must never be flagged.
 import Bun from "bun";
+import { embeddedFiles } from "bun:bundle";
 import { dlopen } from "bun:ffi";
 import { jsc } from "bun:jsc";
 import { Database } from "bun:sqlite";
 import { test } from "bun:test";
-import { wrap } from "bun:wrap";
 
 ```

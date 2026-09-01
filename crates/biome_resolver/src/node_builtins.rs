@@ -181,11 +181,11 @@ pub fn is_builtin_node_module(name: &str) -> bool {
 /// Source: <https://bun.com/reference>
 const BUILTIN_BUN_MODULES: &[&str] = &[
     "bun",
+    "bun:bundle",
     "bun:ffi",
     "bun:jsc",
     "bun:sqlite",
     "bun:test",
-    "bun:wrap",
 ];
 
 /// Returns `true` if `name` is a built-in Bun runtime module.
